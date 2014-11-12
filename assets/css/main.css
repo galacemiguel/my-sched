@@ -1,0 +1,109 @@
+@font-face {
+	font-family: 'bebasregular';
+	src: url('../fonts/bebasregular.eot');
+	src: url('../fonts/bebasregular.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/bebasregular.woff2') format('woff2'),
+		 url('../fonts/bebasregular.woff') format('woff'),
+		 url('../fonts/bebasregular.ttf') format('truetype'),
+		 url('../fonts/bebasregular.svg#bebasregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	color: white;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 561px;
+	margin: auto;
+	-moz-user-select: none;
+}
+
+.clock-wipe {
+	position: relative;
+	display: block;
+	width: 424px;
+	height: 424px;
+	margin: 0 auto;
+}
+
+.semi-circle1 {
+	display: inline-block;
+	width: 212px;
+	height: 424px;
+	border-radius: 424px 0 0 424px;
+	background: white;
+	opacity: 0;
+}
+
+.semi-circle2 {
+	position: absolute;
+	display: inline-block;
+	width: 212px;
+	height: 424px;
+	border-radius: 0 424px 424px 0;
+	background: white;
+}
+
+.clock-wipe-mask {
+	position: absolute;
+	top: 0;
+	right: -4px;
+	bottom: 0;
+	width: 212px;
+	height: 424px;
+	border-radius: 0 424px 424px 0;
+	margin: auto;
+	-webkit-transform-origin: 0% 50%;
+	transform-origin: 0% 50%;
+}
+
+@-webkit-keyframes rotate {
+	100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes rotate {
+	100% { transform: rotate(360deg); }
+}
+
+.circle-mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	width: 396px;
+	height: 396px;
+	border-radius: 100%;
+	margin: auto;
+	text-align: center;
+	cursor: pointer;
+}
+
+.period {
+	font: 60px/396px 'bebasregular';
+	transition: opacity .2s;
+}
+
+footer {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.footer-lbl {
+	display: block;
+	font: 36px 'Garamond', 'Georgia';
+}
+
+.next-period {
+	font: 36px 'bebasregular';
+}
