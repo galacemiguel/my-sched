@@ -90,6 +90,7 @@ body {
 }
 
 .period {
+	padding: 10px 0;
 	font: 60px/396px 'bebasregular';
 	transition: opacity .2s;
 }

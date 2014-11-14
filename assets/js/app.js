@@ -1,9 +1,9 @@
 $(document).ready(function() {
-	var currentDate = new Date();;
-	var day = currentDate.getDay();;
-	var hr = currentDate.getHours();;
-	var min = currentDate.getMinutes();;
-	var sec = currentDate.getSeconds();;
+	var currentDate = new Date();
+	var day = currentDate.getDay();
+	var hr = currentDate.getHours();
+	var min = currentDate.getMinutes();
+	var sec = currentDate.getSeconds();
 	window.setInterval(function() {
 		currentDate = new Date();
 		day = currentDate.getDay();
@@ -24,13 +24,12 @@ $(document).ready(function() {
 			$('.semi-circle2').css('z-index', '1');
 		}
 	},1000);
-
 	/*
 		// Date Simulator
 		day = 2;
 		hr = 14;
-		min = 29;
-		sec = 57;
+		min = 0;
+		sec = 0;
 		window.setInterval(function() {
 			if (sec < 59) {
 				sec++;
@@ -324,6 +323,7 @@ $(document).ready(function() {
 	});
 
 	var i = 0;
+	var periodTextTimeout;
 	$('.circle-mask').click(function() {
 		if ($('.period').html() != "FIN") {
 			if (i < 2) {
@@ -367,7 +367,8 @@ $(document).ready(function() {
 				});
 			}
 
-			window.setTimeout(function() {
+			clearTimeout(periodTextTimeout);
+			periodTextTimeout = window.setTimeout(function() {
 				if (i != 0) {
 					i = 0;
 					$('.period').css('opacity', '0').on('transitionend', function() {
