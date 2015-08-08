@@ -317,7 +317,7 @@ $(document).ready(function() {
 			$('footer').hide();
 			$('.circle-mask').css('border', '15px solid white');
 			$('.clock-wipe-mask').css('border', '2px solid #FFAA30');
-			$('.clock-wipe-mask, .circle-mask, body').css('background', '#FFAA30');
+			$('.clock-wipe-mask, .circle-mask, body').css('background', '#FFB28B');
 		}
 
 		// Update graph
