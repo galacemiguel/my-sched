@@ -26,52 +26,51 @@ $(document).ready(function() {
 		}
 	},1000);
 
-	/*
-		// Date Simulator
-		day = 3;
-		hr = 13;
-		min = 19;
-		sec = 50;
-		window.setInterval(function() {
-			if (sec < 59) {
-				sec++;
+	/*// Date Simulator
+	day = 3;
+	hr = 11;
+	min = 0;
+	sec = 57;
+
+	window.setInterval(function() {
+		if (sec < 59) {
+			sec++;
+		} else {
+			sec = 0;
+			if (min < 59) {
+				min++;
 			} else {
-				sec = 0;
-				if (min < 59) {
-					min++;
+				min = 0;
+				if (hr < 23) {
+					hr++;
 				} else {
-					min = 0;
-					if (hr < 23) {
-						hr++;
+					hr = 0;
+					if (day < 6) {
+						day++;
+						$('.circle-mask').css('border', 'none');
+						$('.container').height('561px');
+						$('footer').show();
+						updatePeriod();
 					} else {
-						hr = 0;
-						if (day < 6) {
-							day++;
-							$('.circle-mask').css('border', 'none');
-							$('.container').height('561px');
-							$('footer').show();
-							updatePeriod();
-						} else {
-							day = 0;
-						}
+						day = 0;
 					}
 				}
 			}
+		}
 
-			var matrix = $('.clock-wipe-mask').css('-webkit-transform') || $('.clock-wipe-mask').css('transform');
-			var split = matrix.split("(")[1];
-			split = split.split(")")[0];
-			
-			var a = split.split(",")[0];
-			var b = split.split(",")[1];
-			var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+		var matrix = $('.clock-wipe-mask').css('-webkit-transform') || $('.clock-wipe-mask').css('transform');
+		var split = matrix.split("(")[1];
+		split = split.split(")")[0];
+		
+		var a = split.split(",")[0];
+		var b = split.split(",")[1];
+		var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
 
-			if (Math.abs(angle) == 180) {
-				$('.semi-circle1').css('opacity', '1');
-				$('.semi-circle2').css('z-index', '1');
-			}
-		},1000);
-	*/
+		if (Math.abs(angle) == 180) {
+			$('.semi-circle1').css('opacity', '1');
+			$('.semi-circle2').css('z-index', '1');
+		}
+	},1000);*/
 
 	var Period = function(title, room, sched, color) {
 		this.title = title;
@@ -92,9 +91,15 @@ $(document).ready(function() {
 		return 60*(60*(hrEnd - hrStart) - minStart + minEnd);
 	}
 
-	var flc = new Period("FLC 1SP", "G-304", "9:00-10:20", "#F9BF3B");
-	var psy = new Period("PSY 101", "B-106", "12:00-13:20", "#19B5FE");
-	var breakPeriod = new Period("", "", "", "#C0392B");
+	var amc = new Period("AMC 124", "F-204", "12:30-13:20", "#C0C0C0");
+	var cs = new Period("CS 110", "F-227", "", "#19B5FE")
+	var fil = new Period("FIL 14", "B-206", "12:00-13:20", "#FF8C7C");
+	var nstp = new Period("NSTP 1", "OSCI DEPT", "13:30-17:20", "#4EEC91");
+	var pe = new Period ("PE 106", "TAB TEN AREA", "8:00-9:50", "#F9BF3B");
+	var psLec = new Period("PS 21", "F-115", "13:30-14:20", "#47EBE0");
+	var psLab = new Period("PS 21.1", "SEC-C105A", "14:30-18:20", "#47EBE0");
+	var th = new Period("TH 121", "CTC-304", "15:30-16:20", "#BE90D4");
+	var breakPd = new Period("", "", "", "#DFAD8C");
 
 	var secsLeft;
 	function computeSecsLeft(periodSched) {
@@ -128,42 +133,185 @@ $(document).ready(function() {
 	}
 
 	function updatePeriod() {
-		// 12:00-8:59AM
-		if (hr < 9) {
-			breakPeriod.title = "PREP";
-			breakPeriod.sched = "0:00-9:00";
-			updateDisplay(breakPeriod);
-			$('.next-period').html("FLC 1SP/G-304");
-		}
-		// 9:00-10:19AM
-		else if (hr == 9 || (hr == 10 && min < 20)) {
-			updateDisplay(flc);
-			$('.next-period').html("90MIN BREAK");
-		}
-		// 10:20-11:49AM
-		else if ((hr == 10 && min >= 20) || (hr == 11 && min < 50)) {
-			breakPeriod.title = "90MIN BREAK";
-			breakPeriod.sched = "10:20-11:50";
-			updateDisplay(breakPeriod);
-			$('.next-period').html("PSY 101/B-106");
-		}
-		// 11:50-11:59AM
-		else if (hr == 11 && min >= 50) {
-			breakPeriod.title = "10MIN BREAK";
-			breakPeriod.sched = "11:50-12:00";
-			updateDisplay(breakPeriod);
-			$('.next-period').html("PSY 101/B-106");
-		}
-		// 12:00-13:19AM
-		else if (hr == 12 || (hr == 13 && min < 20)) {
-			updateDisplay(psy);
-			window.setTimeout(function() {
-				$('.container').height('424px');
-				$('footer').hide();
-			},4);
+		// Mon/Wed/Fri before 4:20PM
+		if ((day == 1 || day == 3 || day == 5) && (hr < 16 || (hr == 16 && min < 20))) {
+
+			// Mon before 11:20AM
+			if (day == 1 && (hr < 11 || (hr == 11 && min < 20))) {
+				// 12:00-9:29AM
+				if (hr < 9 || (hr == 9 && min < 30)) {
+					breakPd.title = "PREP";
+					breakPd.sched = "0:00-9:30";
+					updateDisplay(breakPd);
+					$('.next-period').html("CS 110/F-227");
+				}
+
+				// 9:30-11:19AM
+				else if ((hr == 9 && min >= 30) || hr == 10 || (hr == 11 && min < 20)) {
+					cs.sched = "9:30-11:20";
+					updateDisplay(cs);
+					$('.next-period').html("70MIN BREAK");
+				}
+			}
+
+			// 12:00-11:19AM
+			else if (hr < 11 || (hr == 11 && min < 20)) {
+				// 12:00-10:29AM
+				if (hr < 10 || (hr == 10 && min < 30)) {
+					// Fri
+					if (day == 5) {
+						// 12:00-7:59AM
+						if (hr < 8) {
+							breakPd.title = "PREP";
+							breakPd.sched = "0:00-8:00";
+							updateDisplay(breakPd);
+							$('.next-period').html("PE 106/TAB TEN AREA");
+						}
+		
+						// 8:00-9:49AM
+						else if (hr == 8 || (hr == 9 && min < 50)) {
+							updateDisplay(pe);
+							$('.next-period').html("40MIN BREAK");
+						}
+
+						// 9:50-10:29AM
+						else if ((hr == 9 && min >= 50) || (hr == 10 && min < 30)) {
+							breakPd.title = "40MIN BREAK";
+							breakPd.sched = "9:50-10:30";
+							updateDisplay(breakPd);
+							$('.next-period').html("CS 110/F-227");
+						}
+					}
+
+					// Wed
+					else {
+						// 12:00-10:29AM
+						if (hr < 10 || (hr == 10 && min < 30)) {
+							breakPd.title = "PREP";
+							breakPd.sched = "0:00-10:30";
+							updateDisplay(breakPd);
+							$('.next-period').html("CS 110/F-227");
+						}
+					}
+				}
+
+				// 10:30-11:19AM
+				else if ((hr == 10 && min >= 30) || (hr == 11 && min < 20)) {
+					cs.sched = "10:30-11:20";
+					updateDisplay(cs);
+					$('.next-period').html("70MIN BREAK");
+				}
+			}
+
+			// 11:20-12:29AM
+			else if ((hr == 11 && min >= 20) || (hr == 12 && min < 30)) {
+				breakPd.title = "70MIN BREAK";
+				breakPd.sched = "11:20-12:30";
+				updateDisplay(breakPd);
+				$('.next-period').html("AMC 124/F-204");
+			}
+
+			// 12:30-1:19PM
+			else if ((hr == 12 && min >= 30) || (hr == 13 && min < 20)) {
+				updateDisplay(amc);
+				$('.next-period').html("PS 21/F-115");
+			}
+
+			// 1:20-1:29PM
+			else if (hr == 13 && (min >= 20 && min < 30)) {
+				breakPd.title = "10MIN BREAK";
+				breakPd.sched = "13:20-13:30";
+				updateDisplay(breakPd);
+				$('.next-period').html("PS 21/F-115");	
+			}
+
+			// 1:30-2:19PM
+			else if ((hr == 13 && min >= 30) || (hr == 14 && min < 20)) {
+				updateDisplay(psLec);
+				$('.next-period').html("70MIN BREAK");
+			}
+
+			// 2:20-3:29PM
+			else if ((hr == 14 && min >= 20) || (hr == 15 && min < 30)) {
+				breakPd.title = "70MIN BREAK";
+				breakPd.sched = "14:20-15:30";
+				updateDisplay(breakPd);
+				$('.next-period').html("TH 121/CTC 304");
+			}
+
+			// 3:30-4:19PM
+			else if ((hr == 15 && min >= 30) || (hr == 16 && min < 20)) {
+				updateDisplay(th);
+				window.setTimeout(function() {
+					$('.container').height('424px');
+					$('footer').hide();
+				},4);
+			}
 		}
 
-		else {
+		// Tues before 6:20PM, Thurs before 5:20PM
+		else if ((day == 2 && (hr < 18 || (hr == 18 && min < 20))) ||
+			(day == 4 && (hr < 17 || (hr == 17 && min < 20)))) {
+			// 12:00-11:59AM
+			if (hr < 12) {
+				breakPd.title = "PREP";
+				breakPd.sched = "0:00-12:00";
+				updateDisplay(breakPd);
+				$('.next-period').html("FIL 14/B-206");
+			}
+
+			// Tues
+			else if (day == 2) {
+				// 12:00-1:19PM
+				if (hr == 12 || (hr == 13 && min < 20)) {
+					updateDisplay(fil);
+					$('.next-period').html("70MIN BREAK");
+				}
+
+				// 1:20-2:29PM
+				else if ((hr == 13 && min >= 20) || (hr == 14 && min < 30)) {
+					breakPd.title = "70MIN BREAK";
+					breakPd.sched = "13:20-14:30";
+					updateDisplay(breakPd);
+					$('.next-period').html("PS 21.1/SEC-C105A");
+				}
+
+				// 2:30-6:19PM
+				else if ((hr == 14 && min >= 30) || (hr > 14 || hr < 17) || (hr == 18 && min < 20)) {
+					updateDisplay(psLab);
+					window.setTimeout(function() {
+						$('.container').height('424px');
+						$('footer').hide();
+					},4);
+				}
+			}
+
+			// Thurs
+			else {
+				// 12:00-1:19PM
+				if (hr == 12 || (hr == 13 && min < 20)) {
+					updateDisplay(fil);
+					$('.next-period').html("NSTP 1/OSCI DEPT");
+				}
+
+				// 1:20-1:29PM
+				else if (hr == 13 && (min >= 20 && min < 30)) {
+					breakPd.title = "10MIN BREAK";
+					breakPd.sched = "13:20-13:30";
+					updateDisplay(breakPd);
+					$('.next-period').html("NSTP 1/OSCI DEPT");	
+				}
+
+				// 1:30-5:19PM
+				else if ((hr == 13 && min >= 30) || (hr > 14 || hr < 16) || (hr == 17 && min < 20)) {
+					updateDisplay(nstp);
+					window.setTimeout(function() {
+						$('.container').height('424px');
+						$('footer').hide();
+					},4);
+				}
+			}
+		} else {
 			$('.period').html("FIN");
 			$('.container').height('424px');
 			$('footer').hide();
@@ -172,6 +320,7 @@ $(document).ready(function() {
 			$('.clock-wipe-mask, .circle-mask, body').css('background', '#FFAA30');
 		}
 
+		// Update graph
 		$('.clock-wipe-mask').css({
 			'-webkit-transform': 'rotate('+ deg + 'deg)',
 			'transform': 'rotate('+ deg + 'deg)',
@@ -181,6 +330,7 @@ $(document).ready(function() {
 	}
 
 	updatePeriod();
+
 	if (secsElapsed >= secsLeft) {
 		$('.semi-circle1').css('opacity', '1');
 		$('.semi-circle2').css('z-index', '1');
@@ -205,7 +355,7 @@ $(document).ready(function() {
 	$('.circle-mask').click(function() {
 		if ($('.period').html() != "FIN") {
 			if (i < 2) {
-				if (currentPeriod == breakPeriod) {
+				if (currentPeriod == breakPd) {
 					i = 2;
 				} else {
 					i++;
@@ -241,7 +391,7 @@ $(document).ready(function() {
 						hrEnd -= 12;
 					}
 
-					$('.period').html(hrStart + ":" + minStart + "-" + hrEnd + ":" + minEnd).css('opacity', '1');
+					$('.period').html(hrStart + ":" + minStart + "&ndash;" + hrEnd + ":" + minEnd).css('opacity', '1');
 				});
 			}
 

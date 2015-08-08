@@ -102,7 +102,7 @@ footer {
 
 .footer-lbl {
 	display: block;
-	font: 36px 'Garamond', 'Georgia';
+	font: 36px/50px 'Georgia';
 }
 
 .next-period {
